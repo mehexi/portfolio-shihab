@@ -817,6 +817,12 @@ img {
     gap: 32px;
   }
 
+  .contact__lead .btn {
+    font-size: 14px;
+    padding: 14px 20px;
+    white-space: nowrap;
+  }
+
   .contact__row {
     grid-template-columns: 1fr;
     gap: 4px;
