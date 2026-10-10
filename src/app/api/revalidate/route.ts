@@ -1,9 +1,9 @@
 import { revalidateTag } from "next/cache";
 import { type NextRequest, NextResponse } from "next/server";
 import { parseBody } from "next-sanity/webhook";
-import { PROFILE_TAG } from "@/sanity/queries";
+import { ARTICLE_TAG, PROFILE_TAG } from "@/sanity/queries";
 
-// Target for a Sanity webhook (filter: _type == "profile") so published edits
+// Target for a Sanity webhook (filter: _type in ["profile", "article"]) so published edits
 // show up without waiting for the cache lifetime to pass.
 export async function POST(req: NextRequest) {
   const secret = process.env.SANITY_REVALIDATE_SECRET;
@@ -17,5 +17,6 @@ export async function POST(req: NextRequest) {
   }
 
   revalidateTag(PROFILE_TAG, { expire: 0 });
+  revalidateTag(ARTICLE_TAG, { expire: 0 });
   return NextResponse.json({ revalidated: true });
 }

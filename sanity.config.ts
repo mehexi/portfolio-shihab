@@ -35,6 +35,7 @@ export default defineConfig({
               .title("Executive profile")
               .id(SINGLETON)
               .child(S.document().schemaType(SINGLETON).documentId(SINGLETON)),
+            S.documentTypeListItem("article").title("Articles"),
           ]),
     }),
     visionTool({ defaultApiVersion: apiVersion }),

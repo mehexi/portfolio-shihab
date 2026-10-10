@@ -1,4 +1,4 @@
-import type { Profile } from "./types";
+import type { Article, Profile } from "./types";
 
 // The design's own copy. Rendered until a `profile` document is published in
 // Sanity, and the source for seed/profile.ndjson.
@@ -93,11 +93,6 @@ export const fallbackProfile: Profile = {
     { title: "Security", tools: ["CrowdStrike", "Okta", "Palo Alto Networks"] },
   ],
   showInsights: true,
-  insights: [
-    { type: "Article", source: "Harvard Business Review", title: "Why patient capital wins in volatile markets" },
-    { type: "Interview", source: "Bloomberg", title: "Rebuilding infrastructure for the next fifty years" },
-    { type: "Podcast", source: "The Boardroom", title: "Governance as a competitive advantage" },
-  ],
   contactHeading: "For board, media and partnership enquiries.",
   email: "office@ashworth.com",
   contacts: [
@@ -107,3 +102,24 @@ export const fallbackProfile: Profile = {
     { label: "Connect", value: "LinkedIn ↗" },
   ],
 };
+
+export const fallbackArticles: Article[] = [
+  {
+    title: "Why patient capital wins in volatile markets",
+    slug: "why-patient-capital-wins-in-volatile-markets",
+    kind: "Article",
+    source: "Harvard Business Review",
+  },
+  {
+    title: "Rebuilding infrastructure for the next fifty years",
+    slug: "rebuilding-infrastructure-for-the-next-fifty-years",
+    kind: "Interview",
+    source: "Bloomberg",
+  },
+  {
+    title: "Governance as a competitive advantage",
+    slug: "governance-as-a-competitive-advantage",
+    kind: "Podcast",
+    source: "The Boardroom",
+  },
+];

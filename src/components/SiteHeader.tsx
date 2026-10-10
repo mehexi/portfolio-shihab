@@ -1,13 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 type Props = {
   name: string;
   showInsights: boolean;
+  /** False on inner pages, where the section links must lead back to the home page. */
+  home?: boolean;
 };
 
-export function SiteHeader({ name, showInsights }: Props) {
+export function SiteHeader({ name, showInsights, home = true }: Props) {
   const [open, setOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
 
@@ -28,26 +31,33 @@ export function SiteHeader({ name, showInsights }: Props) {
     };
   }, [open]);
 
+  const base = home ? "" : "/";
   const links = [
-    { href: "#about", label: "About" },
-    { href: "#experience", label: "Experience" },
-    { href: "#projects", label: "Projects" },
-    { href: "#technology", label: "Technology" },
-    ...(showInsights ? [{ href: "#insights", label: "Insights" }] : []),
+    { href: `${base}#about`, label: "About" },
+    { href: `${base}#experience`, label: "Experience" },
+    { href: `${base}#projects`, label: "Projects" },
+    { href: `${base}#technology`, label: "Technology" },
+    ...(showInsights ? [{ href: `${base}#insights`, label: "Insights" }] : []),
   ];
   const close = () => setOpen(false);
 
   return (
     <header className="site-header" data-open={open} ref={headerRef}>
       <div className="container site-header__inner">
-        <div className="site-header__brand">{name}</div>
+        {home ? (
+          <div className="site-header__brand">{name}</div>
+        ) : (
+          <Link href="/" className="site-header__brand">
+            {name}
+          </Link>
+        )}
         <nav className="site-nav" id="site-menu">
           {links.map((link) => (
             <a href={link.href} key={link.href} onClick={close}>
               {link.label}
             </a>
           ))}
-          <a href="#contact" className="site-header__cta" onClick={close}>
+          <a href={`${base}#contact`} className="site-header__cta" onClick={close}>
             Contact
           </a>
         </nav>

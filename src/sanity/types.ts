@@ -1,3 +1,5 @@
+import type { PortableTextBlock } from "next-sanity";
+
 export type SanityImage = {
   asset: { _ref: string };
   alt?: string;
@@ -14,15 +16,22 @@ export type Project = {
   title: string;
   body: string;
   outcome: string;
+  url?: string;
   image?: SanityImage;
 };
 export type TechGroup = { title: string; tools: string[] };
-export type Insight = {
-  type: string;
-  source: string;
+export type ArticleCard = {
   title: string;
-  url?: string;
+  slug: string;
+  kind?: string;
+  source?: string;
+  publishedAt?: string;
   image?: SanityImage;
+};
+export type Article = ArticleCard & {
+  excerpt?: string;
+  body?: PortableTextBlock[];
+  externalUrl?: string;
 };
 export type Contact = { label: string; value: string; url?: string };
 
@@ -44,7 +53,6 @@ export type Profile = {
   techIntro: string;
   tech: TechGroup[];
   showInsights: boolean;
-  insights: Insight[];
   contactHeading: string;
   email: string;
   contacts: Contact[];

@@ -24,14 +24,14 @@ Until Sanity is connected the site renders the design's built-in copy (`src/sani
    ```bash
    npx sanity dataset import seed/profile.ndjson production
    ```
-5. Open `/studio` and edit **Executive profile**. Images left empty render as the design's grey placeholders.
+5. Open `/studio` and edit **Executive profile**, and add entries under **Articles** (each gets its own page at `/insights/<slug>`). Images left empty render as the design's grey placeholders.
 
 ## Publishing updates
 
 Content is cached for an hour. For instant updates add a Sanity webhook:
 
 - URL: `https://<your-domain>/api/revalidate`
-- Filter: `_type == "profile"`
+- Filter: `_type in ["profile", "article"]`
 - Secret: the value of `SANITY_REVALIDATE_SECRET`
 
 ## Layout

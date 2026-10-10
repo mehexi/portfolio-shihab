@@ -122,6 +122,12 @@ export const profile = defineType({
             defineField({ name: "year", type: "string" }),
             defineField({ name: "body", title: "Description", type: "text", rows: 3 }),
             defineField({ name: "outcome", type: "string" }),
+            defineField({
+              name: "url",
+              title: "Project link",
+              description: "Clicking the project card opens this address.",
+              type: "url",
+            }),
             imageWithAlt("image", "Project image"),
           ],
           preview: { select: { title: "title", subtitle: "sector", media: "image" } },
@@ -154,25 +160,13 @@ export const profile = defineType({
       ],
     }),
 
-    defineField({ name: "showInsights", title: "Show insights section", type: "boolean", group: "insights", initialValue: true }),
     defineField({
-      name: "insights",
-      type: "array",
+      name: "showInsights",
+      title: "Show insights section",
+      description: "The section lists the Article documents; it stays hidden while there are none.",
+      type: "boolean",
       group: "insights",
-      of: [
-        defineArrayMember({
-          type: "object",
-          name: "insight",
-          fields: [
-            defineField({ name: "title", type: "string", validation: (r) => r.required() }),
-            defineField({ name: "type", type: "string", description: "e.g. Article, Interview, Podcast" }),
-            defineField({ name: "source", type: "string", description: "e.g. Harvard Business Review" }),
-            defineField({ name: "url", title: "Link", type: "url" }),
-            imageWithAlt("image", "Image"),
-          ],
-          preview: { select: { title: "title", subtitle: "source", media: "image" } },
-        }),
-      ],
+      initialValue: true,
     }),
 
     defineField({ name: "contactHeading", title: "Heading", type: "string", group: "contact" }),

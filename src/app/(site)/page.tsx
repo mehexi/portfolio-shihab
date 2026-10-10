@@ -1,18 +1,44 @@
-import { cacheLife } from "next/cache";
+import { InsightCard } from "@/components/InsightCard";
 import { Media } from "@/components/Media";
+import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { getProfile } from "@/sanity/queries";
+import { getArticles, getProfile } from "@/sanity/queries";
+import type { Project } from "@/sanity/types";
 
-async function currentYear() {
-  "use cache";
-  cacheLife("days");
-  return new Date().getFullYear();
+function ProjectCard({ project: p }: { project: Project }) {
+  const content = (
+    <>
+      <Media
+        image={p.image}
+        placeholder="Project image"
+        className="project__image"
+        ratio={16 / 10}
+        sizes="(min-width: 1080px) 540px, 100vw"
+      />
+      <div className="meta meta--spread">
+        <span className="meta__key">{p.sector}</span>
+        <span>{p.year}</span>
+      </div>
+      <div className="project__title">
+        {p.title}
+        {p.url && <span className="project__arrow"> ↗</span>}
+      </div>
+      <div className="project__body">{p.body}</div>
+      {p.outcome && <div className="project__outcome">{p.outcome}</div>}
+    </>
+  );
+  return p.url ? (
+    <a className="project project--link" href={p.url} target="_blank" rel="noreferrer">
+      {content}
+    </a>
+  ) : (
+    <article className="project">{content}</article>
+  );
 }
 
 export default async function Home() {
-  const profile = await getProfile();
-  const year = await currentYear();
-  const showInsights = profile.showInsights && profile.insights.length > 0;
+  const [profile, articles] = await Promise.all([getProfile(), getArticles()]);
+  const showInsights = profile.showInsights && articles.length > 0;
 
   return (
     <>
@@ -114,22 +140,7 @@ export default async function Home() {
           <h2 className="section-title projects__title">Selected work</h2>
           <div className="projects">
             {profile.projects.map((p) => (
-              <article className="project" key={p.title}>
-                <Media
-                  image={p.image}
-                  placeholder="Project image"
-                  className="project__image"
-                  ratio={16 / 10}
-                  sizes="(min-width: 1080px) 540px, 100vw"
-                />
-                <div className="meta meta--spread">
-                  <span className="meta__key">{p.sector}</span>
-                  <span>{p.year}</span>
-                </div>
-                <div className="project__title">{p.title}</div>
-                <div className="project__body">{p.body}</div>
-                {p.outcome && <div className="project__outcome">{p.outcome}</div>}
-              </article>
+              <ProjectCard project={p} key={p.title} />
             ))}
           </div>
         </section>
@@ -164,26 +175,8 @@ export default async function Home() {
               <div className="eyebrow">Insights</div>
               <h2 className="section-title projects__title">Perspectives</h2>
               <div className="insights">
-                {profile.insights.map((i) => (
-                  <a
-                    className="insight"
-                    key={i.title}
-                    href={i.url ?? "#"}
-                    {...(i.url && { target: "_blank", rel: "noreferrer" })}
-                  >
-                    <Media
-                      image={i.image}
-                      placeholder="Image"
-                      className="insight__image"
-                      ratio={3 / 2}
-                      sizes="(min-width: 1080px) 350px, (min-width: 720px) 50vw, 100vw"
-                    />
-                    <div className="meta">
-                      <span className="meta__key">{i.type}</span>
-                      <span>{i.source}</span>
-                    </div>
-                    <div className="insight__title">{i.title}</div>
-                  </a>
+                {articles.map((a) => (
+                  <InsightCard article={a} key={a.slug} />
                 ))}
               </div>
             </div>
@@ -212,15 +205,7 @@ export default async function Home() {
         </section>
       </main>
 
-      <footer className="container site-footer">
-        <div>
-          © {year} {profile.name}
-        </div>
-        <div className="site-footer__links">
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-        </div>
-      </footer>
+      <SiteFooter name={profile.name} />
     </>
   );
 }
