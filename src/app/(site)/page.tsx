@@ -1,5 +1,6 @@
 import { cacheLife } from "next/cache";
 import { Media } from "@/components/Media";
+import { SiteHeader } from "@/components/SiteHeader";
 import { getProfile } from "@/sanity/queries";
 
 async function currentYear() {
@@ -15,21 +16,7 @@ export default async function Home() {
 
   return (
     <>
-      <header className="site-header">
-        <div className="container site-header__inner">
-          <div className="site-header__brand">{profile.name}</div>
-          <nav className="site-nav">
-            <a href="#about">About</a>
-            <a href="#experience">Experience</a>
-            <a href="#projects">Projects</a>
-            <a href="#technology">Technology</a>
-            {showInsights && <a href="#insights">Insights</a>}
-          </nav>
-          <a href="#contact" className="site-header__cta">
-            Contact
-          </a>
-        </div>
-      </header>
+      <SiteHeader name={profile.name} showInsights={showInsights} />
 
       <main>
         <section className="container hero">
