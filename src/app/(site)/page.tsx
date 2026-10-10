@@ -24,10 +24,10 @@ export default async function Home() {
             <a href="#projects">Projects</a>
             <a href="#technology">Technology</a>
             {showInsights && <a href="#insights">Insights</a>}
-            <a href="#contact" className="site-nav__cta">
-              Contact
-            </a>
           </nav>
+          <a href="#contact" className="site-header__cta">
+            Contact
+          </a>
         </div>
       </header>
 
